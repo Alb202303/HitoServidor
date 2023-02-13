@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,12 +45,20 @@ public Controlador(TemaService temaService, ComentarioService comentarioService,
     @RequestMapping("/")
     public ModelAndView peticionRaiz(Authentication aut) {
         ModelAndView mv = new ModelAndView();
+        List<Tema> temas=temaService.listaTemas();
         mv.addObject("listadotemas", temaService.listaTemas());
 
-        if (aut==null){
-            mv.addObject("user", "No se ha iniciado sesión");
+        if (aut!=null){
+            mv.addObject("user", "¡Hola "+aut.getName()+"!");
         }else{
-            mv.addObject("user", aut.getName());
+            mv.addObject("user", "No has iniciado sesión");
+
+        }
+
+        if (temas.isEmpty()){
+            mv.addObject("checkTemas", "No hay ningún tema publicado");
+        }else{
+            mv.addObject("checkTemas", "Temas publicados:");
         }
         mv.setViewName("inicio");
         return mv;

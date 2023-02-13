@@ -44,9 +44,12 @@
         </div>
     </div>
 </nav>
+<h5 th:text="${user}"></h5>
+<br>
+<br>
 
-<br>
-<br>
+
+<h5 th:text="${checkTemas}"></h5>
 <div class="card" th:each="temas: ${listadotemas}">
 
     <div class="card-header" th:text="${temas.username.getUsername()}">

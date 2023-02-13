@@ -65,7 +65,7 @@ public class DatabaseWebSecurity  {
                 // Se requiere autenticación para el resto de reutas.
                 .anyRequest().authenticated()
                 // Se permite iniciar y cerrar sesión.
-                .and().formLogin().loginPage("/login").failureForwardUrl("/errorlogin").defaultSuccessUrl("/exitologin").permitAll()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/exitologin").failureUrl("/errorlogin").permitAll()
                 .and().logout().logoutSuccessUrl("/exitologout").invalidateHttpSession(true).permitAll()
                 // Error permiso denegado
                 .and().exceptionHandling().accessDeniedPage("/denegado");
