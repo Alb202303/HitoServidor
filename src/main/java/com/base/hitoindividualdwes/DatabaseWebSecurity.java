@@ -46,22 +46,7 @@ public class DatabaseWebSecurity  {
         return users;
     }
 
-   /* @Bean
-    public InMemoryUserDetailsManager detalleUsuarios() {
-        String encriptado;
-        ArrayList<UserDetails> users = new ArrayList<UserDetails>();
 
-
-        encriptado = passwordEncoder().encode("admin");
-        users.add(User.withUsername("admin")
-                .password(encriptado)
-                .disabled(false)
-                .authorities("ADMIN").build());
-
-        return new InMemoryUserDetailsManager(users);
-    }
-
-    */
 
 
     // Filtros por URL.
