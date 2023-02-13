@@ -1,0 +1,54 @@
+DROP DATABASE APISERVIDOR;
+
+CREATE DATABASE APISERVIDOR;
+USE APISERVIDOR;
+
+CREATE TABLE USUARIO(
+idusuario int primary key not null auto_increment,
+nombre varchar(150),
+email varchar(150),
+contraseña varchar(150),
+`enabled` tinyint(1) NOT NULL
+
+
+) ENGINE=InnoDB;
+
+
+
+CREATE TABLE authorities (
+idadmin int auto_increment primary key,
+idusuario int,
+foreign key (idusuario) references users(idusuario),
+authority varchar(50) NOT NULL
+);
+
+
+CREATE TABLE TEMA(
+IDTEMA INT NOT NULL auto_increment PRIMARY KEY,
+NOMBRE VARCHAR(150),
+DESCRIPCION VARCHAR(150),
+IDUSUARIO INT,
+FOREIGN KEY(IDUSUARIO) REFERENCES users(IDUSUARIO)
+);
+
+CREATE TABLE COMENTARIO(
+IDCOMENTARIO INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+IDUSUARIO INT,
+IDTEMA INT,
+FOREIGN KEY(IDUSUARIO) REFERENCES USUARIO(IDUSUARIO),
+FOREIGN KEY(IDTEMA) REFERENCES TEMA(IDTEMA),
+
+TEXTO VARCHAR(500)
+);
+
+INSERT INTO USUARIO VALUES(1, "Admin", "admin@admin.com", "admin", 1);
+INSERT INTO USUARIO VALUES(2, "Alberto", "alberto@alberto.com", "users", 1);
+
+insert into authorities (idusuario, authority)
+  (SELECT IDUSUARIO, 'ADMIN' FROM USUARIO WHERE IDUSUARIO=1);
+
+SELECT*FROM authorities;
+
+INSERT INTO TEMA VALUES(1, "¿Qué opinas de esto?", "Quiero saber vuestra opinión", 1);
+
+INSERT INTO COMENTARIO VALUES (1,1,1, "Opino esto");
