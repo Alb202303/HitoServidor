@@ -106,7 +106,13 @@ public ModelAndView adminPanel(){
     @RequestMapping("/login")
     public ModelAndView peticionSesion(Authentication aut) {
         ModelAndView mv = new ModelAndView();
-        mv.setViewName("login");
+        if (aut!=null){
+            mv.addObject("aviso", "Ya has iniciado sesión. Eres "+aut.getName());
+            mv.setViewName("errorlogout");
+        }else{
+            mv.setViewName("login");
+        }
+
         return mv;
     }
 
@@ -127,10 +133,12 @@ public ModelAndView adminPanel(){
     }
 
     @RequestMapping("/exitologout")
-    public ModelAndView exitologout() {
+    public ModelAndView exitologout(Authentication aut) {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("aviso", "Te echaremos de menos ¡Vuelve pronto!");
-        mv.setViewName("exitologout");
+
+            mv.addObject("aviso", "Te echaremos de menos ¡Vuelve pronto!");
+            mv.setViewName("exitologout");
+
         return mv;
     }
 
