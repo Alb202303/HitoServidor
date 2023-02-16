@@ -76,6 +76,33 @@ public ModelAndView adminPanel(){
 
 }
 
+    @RequestMapping("/eliminar/tema/{temaid}")
+    public ModelAndView eliminarTema(@PathVariable("temaid") int idtema) {
+        ModelAndView mv=new ModelAndView();
+        Tema tema = temaService.buscarTema(idtema);
+        comentarioService.borrarComentarios(tema);
+
+        temaService.borrarTema(idtema);
+        mv.addObject("eliminado", "El tema se ha eliminado correctamente");
+
+        mv.setViewName("temaeliminado");
+        return mv;
+    }
+
+    @RequestMapping("/eliminar/usuarios/{usernombre}")
+    public ModelAndView eliminarTema(@PathVariable("usernombre") String username) {
+        ModelAndView mv=new ModelAndView();
+        Users user=usuarioService.buscarUsuario(username);
+
+        authoritiesService.borrarU(user);
+        usuarioService.eliminarUsuario(username);
+        mv.addObject("eliminado", "El usuario se ha eliminado correctamente");
+        mv.setViewName("temaeliminado");
+
+        return mv;
+    }
+
+
     @RequestMapping("/login")
     public ModelAndView peticionSesion(Authentication aut) {
         ModelAndView mv = new ModelAndView();
@@ -104,6 +131,13 @@ public ModelAndView adminPanel(){
         ModelAndView mv = new ModelAndView();
         mv.addObject("aviso", "Te echaremos de menos ¡Vuelve pronto!");
         mv.setViewName("exitologout");
+        return mv;
+    }
+
+    @RequestMapping("/login?error=true")
+    public ModelAndView errorlogin() {
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("errorlogin");
         return mv;
     }
     @RequestMapping("/registro_completado")
@@ -173,7 +207,6 @@ public ModelAndView adminPanel(){
     @RequestMapping("/comentar")
     public ModelAndView comentar(Comentario c){
         ModelAndView mv=new ModelAndView();
-        mv.addObject("comentario", new Comentario());
         c.setTexto("");
         mv.setViewName("tema");
         return mv;
@@ -210,60 +243,30 @@ public ModelAndView adminPanel(){
 
 
 
-    @RequestMapping("/eliminar/tema/{temaid}")
-    public ModelAndView eliminarTema(@PathVariable("temaid") int idtema) {
-        ModelAndView mv=new ModelAndView();
-        Tema tema = temaService.buscarTema(idtema);
-        comentarioService.borrarComentarios(tema);
-
-        temaService.borrarTema(idtema);
-        mv.addObject("eliminado", "El tema se ha eliminado correctamente");
-
-        mv.setViewName("temaeliminado");
-        return mv;
-    }
-
-    @RequestMapping("/eliminar/usuarios/{usernombre}")
-    public ModelAndView eliminarTema(@PathVariable("usernombre") String username) {
-        ModelAndView mv=new ModelAndView();
-        Users user=usuarioService.buscarUsuario(username);
-
-        authoritiesService.borrarU(user);
-        usuarioService.eliminarUsuario(username);
-        mv.addObject("eliminado", "El usuario    se ha eliminado correctamente");
-        mv.setViewName("temaeliminado");
-
-        return mv;
-    }
 
 
 
 
     @RequestMapping("/perfil")
-    public ModelAndView mostrarPerfil(Authentication aut){
-    ModelAndView mv=new ModelAndView();
-    String username=aut.getName();
-    Users user=usuarioService.buscarUsuario(username);
-    Tema tema=temaService.buscarMisTemas(user);
+    public ModelAndView mostrarPerfil(Authentication aut) {
+        ModelAndView mv = new ModelAndView();
+        String username = aut.getName();
+        Users user = usuarioService.buscarUsuario(username);
+        Tema tema = temaService.buscarMisTemas(user);
 
-    if (aut==null){
-        mv.setViewName("denegado");
-    }else {
+        if (aut == null) {
+            mv.setViewName("denegado");
+        } else {
 
-        mv.addObject("temas", tema);
+            mv.addObject("temas", tema);
 
-        mv.addObject("user", aut.getName());
-        mv.setViewName("perfil");
+            mv.addObject("user", aut.getName());
+            mv.setViewName("perfil");
+        }
+
+
+        return mv;
     }
-
-
-    return mv;
-
-
-    }
-
-
-
 
 
 }

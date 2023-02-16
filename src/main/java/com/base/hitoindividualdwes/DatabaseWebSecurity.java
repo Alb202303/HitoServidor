@@ -32,10 +32,7 @@ public class DatabaseWebSecurity  {
         auth.jdbcAuthentication().dataSource(dataSource);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+
 
 
    @Bean
@@ -65,26 +62,17 @@ public class DatabaseWebSecurity  {
                 // Se requiere autenticación para el resto de reutas.
                 .anyRequest().authenticated()
                 // Se permite iniciar y cerrar sesión.
-                .and().formLogin().loginPage("/login").defaultSuccessUrl("/exitologin").failureUrl("/errorlogin").permitAll()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/exitologin").failureUrl("/login?error=true").permitAll()
                 .and().logout().logoutSuccessUrl("/exitologout").invalidateHttpSession(true).permitAll()
                 // Error permiso denegado
                 .and().exceptionHandling().accessDeniedPage("/denegado");
-       /* .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/hola")
-                .failureUrl("/login?error=true")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutSuccessUrl("/login?logout=true")
-                .invalidateHttpSession(true)
-                .permitAll();
 
-
-        */
         return http.build();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }

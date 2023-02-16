@@ -46,15 +46,20 @@
 
 
 
+<h3>Título:</h3>
+<h4 th:text="${tema.getTitulo()}"></h4>
+<br>
 
-<h2 th:text="${tema.getTitulo()}"></h2>
 <p th:text="${tema.getDescripcion()}"></p>
 
+<br>
+<h5>Escrito por: <span th:text="${tema.username.getUsername()}"></span> </h5>
+<br>
+<br>
 
 
 
-
-
+<h3>Comentarios</h3>
 <div class="card" th:each="comentario: ${listacomentarios}">
     <div class="card-header" th:text="${comentario.username.getUsername()}">
     </div>
